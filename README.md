@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Django Family and Samaj Management
 
 ## Overview
@@ -210,3 +211,6 @@ Want to contribute? Follow these steps:
 
 📌 **Happy Coding!** 🚀
 
+=======
+# new_samaj_project
+>>>>>>> bc67accd2c574ddd987d9712869300aef783dc95
