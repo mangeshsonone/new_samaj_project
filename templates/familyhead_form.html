@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Head Form</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f0f2f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Form Title */
+    .form-title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 26px; /* Slightly larger text */
+      color: white;
+      background-color: #0a3d62;
+      padding: 15px;
+      border-radius: 8px;
+      width: 80%; /* Make it wider */
+      max-width: 700px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Form Container */
+    .form-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+      border: 2px solid #ddd;
+    }
+    
+    /* Each Form Row is Full Width */
+    .form-group {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    
+    /* Inputs, Selects & Textareas */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      border-radius: 5px;
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    
+    /* Submit Button */
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .btn-success {
+      background-color: #1877f2;
+      border: none;
+      padding: 10px 18px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    
+    .btn-success:hover {
+      background-color: #1558b0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 576px) {
+      .form-title {
+        font-size: 20px;
+        padding: 10px;
+        width: 90%;
+      }
+      
+      .form-container {
+        width: 90%;
+        padding: 15px;
+      }
+      
+      .btn-success {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2 class="form-title">Enter the details of the Head of the Family</h2>
+  
+
+  <div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="id_name_of_head" class="form-label fw-bold">First Name</label>
+          {{ form.name_of_head }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_middle_name" class="form-label fw-bold">Middle Name</label>
+            {{ form.middle_name }}
+        </div>
+
+        
+        <div class="form-group">
+            <label for="id_last_name" class="form-label fw-bold">Last Name</label>
+            {{ form.last_name }}
+          </div>
+  
+        <!-- Birth Date -->
+        <div class="form-group">
+          <label for="id_birth_date" class="form-label fw-bold">Birth Date</label>
+          {{ form.birth_date }}
+          {% if form.birth_date.errors %}
+            <div class="text-danger">
+              {% for error in form.birth_date.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Age -->
+        <div class="form-group">
+          <label for="id_age" class="form-label fw-bold">Age</label>
+          {{ form.age }}
+        </div>
+        
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="id_gender" class="form-label fw-bold">Gender</label>
+          {{ form.gender }}
+        </div>
+        
+        <!-- Marital Status -->
+        <div class="form-group">
+          <label for="id_marital_status" class="form-label fw-bold">Marital Status</label>
+          {{ form.marital_status }}
+        </div>
+
+        <!-- Qualification -->
+        <div class="form-group">
+          <label for="id_qualification" class="form-label fw-bold">Qualification</label>
+          {{ form.qualification }}
+        </div>
+        
+        <!-- Occupation -->
+        <div class="form-group">
+          <label for="id_occupation" class="form-label fw-bold">Occupation</label>
+          {{ form.occupation }}
+        </div>
+        
+        <!-- Nature of Duties -->
+        <div class="form-group">
+          <label for="id_exact_nature_of_duties" class="form-label fw-bold">Nature of Duties</label>
+          {{ form.exact_nature_of_duties }}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_phone_no" class="form-label fw-bold">Phone Number</label>
+          <div class="input-group">
+            <span class="input-group-text">+91</span>
+            <input type="text" name="phone_no" id="id_phone_no" class="form-control" placeholder="Enter 10-digit Phone Number" oninput="validatePhoneNumbers()">
+          </div>
+          <div id="phone-error" class="text-danger"></div>
+        </div>
+  
+        <!-- Alternative Number -->
+        <div class="form-group">
+          <label for="id_alternative_no" class="form-label fw-bold">Alternative Number</label>
+          <div class="input-group">
+            <span class="input-group-text">+91</span>
+          <input type="text" name="alternative_no" id="id_alternative_no" class="form-control" placeholder="Enter 10-digit Alternative Number" oninput="validatePhoneNumbers()">
+        </div>
+          <div id="alt-error" class="text-danger"></div>
+        </div>
+        
+        <!-- Landline Number -->
+        <div class="form-group">
+          <label for="id_landline_no" class="form-label fw-bold">Landline Number</label>
+          {{ form.landline_no }}
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group">
+          <label for="id_email_id" class="form-label fw-bold">Email</label>
+          {{ form.email_id }}
+        </div>
+        
+        <!-- Address Fields -->
+        <!-- Address Details -->
+    <div class="form-group">
+      <label for="id_building_name" class="form-label fw-bold">Building Name</label>
+      {{ form.building_name }}
+  </div>
+  
+  <div class="form-group">
+      <label for="id_flat_no" class="form-label fw-bold">Flat No</label>
+      {{ form.flat_no }}
+  </div>
+  
+  <div class="form-group">
+      <label for="id_door_no" class="form-label fw-bold">Door No</label>
+      {{ form.door_no }}
+  </div>
+  
+  <div class="form-group">
+      <label for="id_street_name" class="form-label fw-bold">Street Name</label>
+      {{ form.street_name }}
+  </div>
+  
+  <div class="form-group">
+      <label for="id_landmark" class="form-label fw-bold">Landmark</label>
+      {{ form.landmark }}
+  </div>
+
+ <div class="form-group">
+    <label for="district" class="form-label fw-bold">District</label>
+    <input type="text" id="district" name="district" class="form-control" >
+</div>
+
+<div class="form-group">
+  <label for="id_pincode" class="form-label fw-bold">Pincode</label>
+  {{ form.pincode }}
+  <div id="pincode-error" class="text-danger" style="display:none;">Please enter only numbers.</div>
+</div>
+
+  <div class="form-group">
+    <label for="state" class="form-label fw-bold" >State</label>
+    <input type="text" id="state" name="state" class="form-control" >
+</div>
+
+
+
+<div class="form-group">
+  <label for="id_country" class="form-label fw-bold">Country</label>
+  {{ form.country }}
+</div>
+  
+<div class="form-group">
+  <label class="form-label fw-bold">Native Place</label>
+  <div class="row">
+    <div class="col">
+      <input type="text" id="id_native_city" name="native_city" class="form-control" placeholder="City">
+    </div>
+    <div class="col">
+      <input type="text" id="id_native_state" name="native_state" class="form-control" placeholder="State">
+    </div>
+  </div>
+</div>
+        
+        
+        <!-- Blood Group -->
+        <div class="form-group">
+          <label for="id_blood_group" class="form-label fw-bold">Blood Group</label>
+          {{ form.blood_group }}
+        </div>
+        
+        <!-- Social Media Link -->
+        <div class="form-group">
+          <label for="id_social_media_link" class="form-label fw-bold">Social Media Link</label>
+          {{ form.social_media_link }}
+        </div>
+        
+        <!-- Upload Photo -->
+        <div class="form-group">
+          <label for="id_photo_upload" class="form-label fw-bold">Upload Photo</label>
+          {{ form.photo_upload }}
+        </div>
+        
+        <!-- Error Message Container -->
+        <div id="error_message" class="text-danger mb-3"></div>
+        
+        <div class="btn-container">
+          <button type="submit" class="btn btn-success px-4">Submit</button>
+        </div>
+  </form>
+  
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JavaScript for Dropdown Placeholders and Validation -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Define an array of dropdown IDs and their respective placeholder text
+      const dropdowns = [
+        { id: "id_age", placeholder: "Select Age" },
+        { id: "id_gender", placeholder: "Select Gender" },
+        { id: "id_marital_status", placeholder: "Select Marital Status" },
+        { id: "id_blood_group", placeholder: "Select Blood Group" },
+        { id: "id_samaj", placeholder: "Select Samaj" }
+      ];
+
+      // Loop through each dropdown and update the first option text
+      dropdowns.forEach(dropdown => {
+        let element = document.getElementById(dropdown.id);
+        if (element && element.options.length > 0) {
+          element.options[0].text = dropdown.placeholder;
+        }
+      });
+
+      // Call validatePhoneNumbers on page load to show initial errors
+      validatePhoneNumbers();
+
+      // Birth date and age calculation
+      const birthDateInput = document.getElementById("id_birth_date");
+      const ageInput = document.getElementById("id_age");
+      if(birthDateInput && ageInput) {
+        birthDateInput.addEventListener("change", function() {
+          let birthDate = new Date(this.value);
+          let today = new Date();
+          let age = today.getFullYear() - birthDate.getFullYear();
+          let m = today.getMonth() - birthDate.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+          }
+          ageInput.value = age;
+        });
+      }
+    });
+
+    function validatePhoneNumbers() {
+      const phoneInput = document.getElementById("id_phone_no");
+      const altInput = document.getElementById("id_alternative_no");
+      const phoneError = document.getElementById("phone-error");
+      const altError = document.getElementById("alt-error");
+
+      let phoneValue = phoneInput.value.replace(/\D/g, ""); // Remove non-numeric characters
+      let altValue = altInput.value.replace(/\D/g, ""); // Remove non-numeric characters
+
+      phoneInput.value = phoneValue;
+      altInput.value = altValue;
+
+      // Validation for phone number - always show error unless exactly 10 digits
+      if (phoneValue.length ===0) {
+        phoneError.textContent = "";
+      } else if (phoneValue.length < 10) {
+        phoneError.textContent = "Number must be exactly 10 digits. You have entered " + phoneValue.length + " digits.";
+      } else if (phoneValue.length > 10) {
+        phoneError.textContent = "Only 10 digits are allowed. Please remove " + (phoneValue.length - 10) + " digits.";
+      } else {
+        phoneError.textContent = ""; // Valid 10-digit number
+      }
+
+      // Validation for alternative number - always show error unless exactly 10 digits
+      if (altValue.length === 0) {
+        altError.textContent = "";
+      } else if (altValue.length < 10) {
+        altError.textContent = "Number must be exactly 10 digits. You have entered " + altValue.length + " digits.";
+      } else if (altValue.length > 10) {
+        altError.textContent = "Only 10 digits are allowed. Please remove " + (altValue.length - 10) + " digits.";
+      } else {
+        altError.textContent = ""; // Valid 10-digit number
+      }
+
+      // Check if both numbers are the same (only if both have valid 10 digits)
+      if (phoneValue.length === 10 && altValue.length === 10 && phoneValue === altValue) {
+        altError.textContent = "Phone number and alternative number cannot be the same.";
+      }
+    }
+
+
+    document.getElementById('state').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];  // Get the selected `<option>`
+    const stateId = selectedOption.getAttribute('data-id');   // Fetch `data-id` attribute
+    const districtDropdown = document.getElementById('district');
+
+    console.log("Selected State Name:", this.value); // State name
+    console.log("Selected State ID:", stateId); // State ID
+
+    // Clear current options
+    districtDropdown.innerHTML = '<option value="">Select District</option>';
+    
+    if (stateId) {
+        // Fetch districts for the selected state
+        fetch(`/get_districts/${stateId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.districts) {
+                    // Add each district to the dropdown
+                    data.districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district.name;
+                        option.textContent = district.name;
+                        districtDropdown.appendChild(option);
+                    });
+                } else if (data.error) {
+                    console.error('Error fetching districts:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    function autoSave() {
+        let formData = new FormData(form);
+
+        fetch("{% url 'save_form_data' %}", {  // Replace with your actual URL name
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+        })
+        .then(response => response.json())
+        .then(data => console.log("Auto-saved:", data))
+        .catch(error => console.error("Auto-save error:", error));
+    }
+
+    // Trigger auto-save on every input change
+    form.querySelectorAll("input, select, textarea").forEach((field) => {
+        field.addEventListener("input", autoSave);
+        field.addEventListener("change", autoSave); // For dropdowns and checkboxes
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const birthDateInput = document.getElementById("id_birth_date");
+
+    // Create an error element if not present and insert it after the birth date field
+    let errorDiv = document.getElementById("birthDateError");
+    if (!errorDiv) {
+        errorDiv = document.createElement("div");
+        errorDiv.id = "birthDateError";
+        errorDiv.className = "text-danger";
+        birthDateInput.parentElement.appendChild(errorDiv);
+    }
+
+    birthDateInput.addEventListener("change", function() {
+        // Parse the date input value into a Date object
+        const selectedDate = new Date(birthDateInput.value);
+        const today = new Date();
+        // Set the time to midnight for a proper comparison
+        today.setHours(0, 0, 0, 0);
+
+        if (selectedDate > today) {
+            errorDiv.textContent = "Birthdate cannot be a future date.";
+        } else {
+            errorDiv.textContent = "";
+        }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const pincodeInput = document.getElementById("id_pincode");
+
+    pincodeInput.addEventListener("change", function() {
+        const pincode = pincodeInput.value.trim();
+
+        // Validate that pincode has exactly 6 digits and is numeric
+        if (pincode.length === 6 && !isNaN(pincode)) {
+            // Call the Postal Pincode API
+            fetch(`https://api.postalpincode.in/pincode/${pincode}`)
+            .then(response => response.json())
+            .then(data => {
+                // Check if the API returned success and at least one post office detail
+                if (data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length > 0) {
+                    const postOffice = data[0].PostOffice[0];
+
+                    // Autofill the state field (assuming it's a text input)
+                    const stateInput = document.getElementById("state");
+                    stateInput.value = postOffice.State;
+
+                    // Autofill the country field. This depends on how your country field is rendered.
+                    const countryField = document.getElementById("id_country");
+                    
+                    // If countryField is an <input> type
+                    if (countryField.tagName.toLowerCase() === "input") {
+                        countryField.value = postOffice.Country;
+                    } 
+                    // If countryField is a <select>, select the matching option if possible.
+                    else if (countryField.tagName.toLowerCase() === "select") {
+                        let found = false;
+                        for (let i = 0; i < countryField.options.length; i++) {
+                            if (countryField.options[i].text.toLowerCase() === postOffice.Country.toLowerCase()) {
+                                countryField.selectedIndex = i;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            // Optionally add the country if it's not already in the list.
+                            const newOption = document.createElement("option");
+                            newOption.value = postOffice.Country;
+                            newOption.text = postOffice.Country;
+                            countryField.add(newOption);
+                            countryField.selectedIndex = countryField.options.length - 1;
+                        }
+                    }
+                } else {
+                    alert("Invalid pincode or no data found for the provided pincode.");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching pincode data:", error);
+                alert("An error occurred while fetching pincode data.");
+            });
+        } else {
+            alert("Please enter a valid 6-digit pincode.");
+        }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const emailInput = document.getElementById("id_email_id");
+  const emailErrorDiv = document.getElementById("email-error");
+
+  // Function to validate email format using HTML5 validation
+  function validateEmail() {
+    if (!emailInput.checkValidity()) {
+      emailErrorDiv.textContent = "Please enter a valid email address.";
+    } else {
+      emailErrorDiv.textContent = "";
+    }
+  }
+
+  // Validate on blur
+  emailInput.addEventListener("blur", validateEmail);
+
+  // Optional: Validate on form submission
+  document.getElementById("yourFormId").addEventListener("submit", function(event) {
+    validateEmail();
+    if (!emailInput.checkValidity()) {
+      event.preventDefault(); // Prevent submission if invalid
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const pincodeInput = document.getElementById("id_pincode");
+    const errorDiv = document.getElementById("pincode-error");
+
+    pincodeInput.addEventListener("input", function () {
+      const isValid = /^\d*$/.test(pincodeInput.value); // Only digits allowed
+      if (!isValid) {
+        errorDiv.style.display = "block";
+        // Remove non-digit characters
+        pincodeInput.value = pincodeInput.value.replace(/\D/g, "");
+      } else {
+        errorDiv.style.display = "none";
+      }
+    });
+  });
+  </script>
+</body>
+</html>
